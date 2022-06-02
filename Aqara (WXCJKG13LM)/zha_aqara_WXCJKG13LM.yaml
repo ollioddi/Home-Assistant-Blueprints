@@ -298,24 +298,3 @@ action:
           - "{{ command == '6_triple' }}"
         sequence: !input "6_triple"
 
-
-      - conditions:
-          - "{{ command == '2_long' }}"
-        sequence: !input "2_long"
-
-      - conditions:
-          - "{{ command == '3_long' }}"
-        sequence: !input "3_long"
-
-      - conditions:
-          - "{{ command == '4_long' }}"
-        sequence: !input "4_long"
-
-      - conditions:
-          - "{{ command == '5_long' }}"
-        sequence: !input "5_long"
-
-      - conditions:
-          - "{{ command == '6_long' }}"
-        sequence: !input "6_long"
-
