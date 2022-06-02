@@ -1,5 +1,5 @@
 blueprint:
-  name: ZHA - LK FUGA Switch Model 550D6001 On-Off-Dimming
+  name: ZHA - LK FUGA Wiser Switch Model 550D6001 On-Off-Dimming
   description: Control and dim lights with LK Fuga switch
   domain: automation
   input:
