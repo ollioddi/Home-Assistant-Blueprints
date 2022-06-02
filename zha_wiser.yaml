@@ -1,0 +1,129 @@
+blueprint:
+  name: ZHA - LK FUGA Switch Model 550D6001 On-Off-Dimming
+  description: Control and dim lights with LK Fuga switch
+  domain: automation
+  input:
+    switch:
+      name: Schneider Wiser 4-Button Remote
+      description: Schneider Wiser 4-Button Battery switch 550D6001
+      selector:
+        device:
+          integration: zha
+          manufacturer: Schneider Electric
+          model: FLS/AIRLINK/4
+
+    light_top:
+      name: Light
+      description: The light to control with top buttons
+      selector:
+        target:
+          entity:
+            domain: light
+
+    light_bottom:
+      name: Light
+      description: The light to control with bottom buttons
+      selector:
+        target:
+          entity:
+            domain: light
+
+mode: restart
+max_exceeded: silent
+trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      device_id: !input "switch"
+action:
+  - variables:
+      command: "{{ trigger.event.data.command }}"
+      endpoint_id: "{{ trigger.event.data.endpoint_id }}"
+
+
+  - choose:
+
+      ## Upper Turn On
+      - conditions:
+          - "{{ command == 'on' and endpoint_id == 21 }}"
+        sequence:
+          - service: light.turn_on
+            target: !input "light_top"
+
+      ## Upper Turn Off
+      - conditions:
+          - "{{ command == 'off' and endpoint_id == 21 }}"
+        sequence:
+          - service: light.turn_off
+            target: !input "light_top"
+
+      ## Upper brighter
+      - conditions: "{{ command == 'move' and endpoint_id == 21 }}"
+        sequence:
+          repeat:
+            while:
+              - condition: template
+                value_template: "{{ repeat.index < 10 }}"
+            sequence:
+              - service: light.turn_on
+                target: !input "light_top"
+                data:
+                  transition: 1
+                  brightness_step_pct: -10
+
+      ## Upper darker
+      - conditions: "{{ command == 'move_with_on_off' and endpoint_id == 21 }}"
+        sequence:
+          repeat:
+            while:
+              - condition: template
+                value_template: "{{ repeat.index < 10 }}"
+            sequence:
+              - service: light.turn_on
+                target: !input "light_top"
+                data:
+                  transition: 1
+                  brightness_step_pct: 10
+
+      ## Lower Turn On
+      - conditions:
+          - "{{ command == 'on' and endpoint_id == 22 }}"
+        sequence:
+          - service: light.turn_on
+            target: !input "light_bottom"
+
+      ## Lower Turn Off
+      - conditions:
+          - "{{ command == 'off' and endpoint_id == 22 }}"
+        sequence:
+          - service: light.turn_off
+            target: !input "light_bottom"
+
+      ## Lower brighter
+      - conditions: "{{ command == 'move' and endpoint_id == 22 }}"
+        sequence:
+          repeat:
+            while:
+              - condition: template
+                value_template: "{{ repeat.index < 10 }}"
+            sequence:
+              - service: light.turn_on
+                target: !input "light_bottom"
+                data:
+                  transition: 1
+                  brightness_step_pct: -10
+
+      ## Lower darker
+      - conditions: "{{ command == 'move_with_on_off' and endpoint_id == 22 }}"
+        sequence:
+          repeat:
+            while:
+              - condition: template
+                value_template: "{{ repeat.index < 10 }}"
+            sequence:
+              - service: light.turn_on
+                target: !input "light_bottom"
+                data:
+                  transition: 1
+                  brightness_step_pct: 10
+
