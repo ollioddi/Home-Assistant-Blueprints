@@ -1,0 +1,297 @@
+blueprint:
+  name: Simple ZHA Light Controller - Aqara Opple switch 3 bands
+  description: "Control and dim lights with Aqara Opple switch 3 bands (WXCJKG13LM)"
+  domain: automation
+  input:
+    aqara_sw:
+      name: Aqara switch
+      description: Aqara switch to use
+      selector:
+        device:
+          integration: zha
+          manufacturer: LUMI
+    1_single:
+      name: Button 1 - simple click
+      description: Action to run on triple click of button 1
+      default: []
+      selector:
+        action: null
+    1_double:
+      name: Button 1 - double click
+      description: Action to run on triple click of button 1
+      default: []
+      selector:
+        action: null
+    1_triple:
+      name: Button 1 - triple click
+      description: Action to run on triple click of button 1
+      default: []
+      selector:
+        action: null
+    1_long:
+      name: Button 1 - hold click
+      description: Action to run on triple click of button 1
+      default: []
+      selector:
+        action: null
+    1_release:
+      name: Button 1 - on release
+      description: Action to run after hold then release
+      default: []
+      selector:
+        action: null
+    2_single:
+      name: Button 2 - single click
+      description: Action to run on triple click of button 2
+      default: []
+      selector:
+        action: null
+    2_double:
+      name: Button 2 - double click
+      description: Action to run on triple click of button 2
+      default: []
+      selector:
+        action: null
+    2_triple:
+      name: Button 2 - triple click
+      description: Action to run on triple click of button 2
+      default: []
+      selector:
+        action: null
+    2_long:
+      name: Button 2 - hold click
+      description: Action to run on triple click of button 2
+      default: []
+      selector:
+        action: null
+    2_release:
+      name: Button 2 - on release
+      description: Action to run after hold then release
+      default: []
+      selector:
+        action: null
+    3_single:
+      name: Button 3 - simple click
+      description: Action to run on triple click of button 3
+      default: []
+      selector:
+        action: null
+    3_double:
+      name: Button 3 - double click
+      description: Action to run on triple click of button 3
+      default: []
+      selector:
+        action: null
+    3_triple:
+      name: Button 3 - triple click
+      description: Action to run on triple click of button 3
+      default: []
+      selector:
+        action: null
+    3_long:
+      name: Button 3 - hold click
+      description: Action to run on triple click of button 3
+      default: []
+      selector:
+        action: null
+    3_release:
+      name: Button 3 - on release
+      description: Action to run after hold then release
+      default: []
+      selector:
+        action: null
+    4_single:
+      name: Button 4 - single click
+      description: Action to run on triple click of button 4
+      default: []
+      selector:
+        action: null
+    4_double:
+      name: Button 4 - double click
+      description: Action to run on triple click of button 4
+      default: []
+      selector:
+        action: null
+    4_triple:
+      name: Button 4 - triple click
+      description: Action to run on triple click of button 4
+      default: []
+      selector:
+        action: null
+    4_long:
+      name: Button 4 - hold click
+      description: Action to run on triple click of button 4
+      default: []
+      selector:
+        action: null
+    4_release:
+      name: Button 4 - on release
+      description: Action to run after hold then release
+      default: []
+      selector:
+        action: null
+    5_single:
+      name: Button 5 - single click
+      description: Action to run on triple click of button 5
+      default: []
+      selector:
+        action: null
+    5_double:
+      name: Button 5 - double click
+      description: Action to run on triple click of button 5
+      default: []
+      selector:
+        action: null
+    5_triple:
+      name: Button 5 - triple click
+      description: Action to run on triple click of button 5
+      default: []
+      selector:
+        action: null
+    5_long:
+      name: Button 5 - hold click
+      description: Action to run on triple click of button 5
+      default: []
+      selector:
+        action: null
+    5_release:
+      name: Button 5 - on release
+      description: Action to run after hold then release
+      default: []
+      selector:
+        action: null
+    6_single:
+      name: Button 6 - single click
+      description: Action to run on triple click of button 6
+      default: []
+      selector:
+        action: null
+    6_double:
+      name: Button 6 - double click
+      description: Action to run on triple click of button 6
+      default: []
+      selector:
+        action: null
+    6_triple:
+      name: Button 6 - triple click
+      description: Action to run on triple click of button 6
+      default: []
+      selector:
+        action: null
+    6_long:
+      name: Button 6 - hold click
+      description: Action to run on triple click of button 6
+      default: []
+      selector:
+        action: null
+    6_release:
+      name: Button 6 - on release
+      description: Action to run after hold then release
+      default: []
+      selector:
+        action: null
+  source_url: https://gist.github.com/probize/5a9cfb3fadac5e7955942b0bfe841238
+
+mode: restart
+max_exceeded: silent
+trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      device_id: !input "aqara_sw"
+action:
+  - variables:
+      command: "{{ trigger.event.data.command }}"
+      endpoint_id: "{{ trigger.event.data.endpoint_id }}"
+      args: "{{ trigger.event.data.args }}"
+  - choose:
+      - conditions:
+          - "{{ command == '1_single' }}"
+        sequence: !input "1_single"
+      - conditions:
+          - "{{ command == '2_single' }}"
+        sequence: !input "2_single"
+      - conditions:
+          - "{{ command == '3_single' }}"
+        sequence: !input "3_single"
+      - conditions:
+          - "{{ command == '4_single' }}"
+        sequence: !input "4_single"
+      - conditions:
+          - "{{ command == '5_single' }}"
+        sequence: !input "5_single"
+      - conditions:
+          - "{{ command == '6_single' }}"
+        sequence: !input "6_single"
+      - conditions:
+          - "{{ command == '1_double' }}"
+        sequence: !input "1_double"
+      - conditions:
+          - "{{ command == '2_double' }}"
+        sequence: !input "2_double"
+      - conditions:
+          - "{{ command == '3_double' }}"
+        sequence: !input "3_double"
+      - conditions:
+          - "{{ command == '4_double' }}"
+        sequence: !input "4_double"
+      - conditions:
+          - "{{ command == '5_double' }}"
+        sequence: !input "5_double"
+      - conditions:
+          - "{{ command == '6_double' }}"
+        sequence: !input "6_double"
+      - conditions:
+          - "{{ command == '1_triple' }}"
+        sequence: !input "1_triple"
+      - conditions:
+          - "{{ command == '2_triple' }}"
+        sequence: !input "2_triple"
+      - conditions:
+          - "{{ command == '3_triple' }}"
+        sequence: !input "3_triple"
+      - conditions:
+          - "{{ command == '4_triple' }}"
+        sequence: !input "4_triple"
+      - conditions:
+          - "{{ command == '5_triple' }}"
+        sequence: !input "5_triple"
+      - conditions:
+          - "{{ command == '6_triple' }}"
+        sequence: !input "6_triple"
+      - conditions:
+          - "{{ command == '1_long' }}"
+        sequence: !input "1_long"
+      - conditions:
+          - "{{ command == '2_long' }}"
+        sequence: !input "2_long"
+      - conditions:
+          - "{{ command == '3_long' }}"
+        sequence: !input "3_long"
+      - conditions:
+          - "{{ command == '4_long' }}"
+        sequence: !input "4_long"
+      - conditions:
+          - "{{ command == '5_long' }}"
+        sequence: !input "5_long"
+      - conditions:
+          - "{{ command == '6_long' }}"
+        sequence: !input "6_long"
+      - conditions:
+          - "{{ command == '1_release' }}"
+        sequence: !input "1_release"
+      - conditions:
+          - "{{ command == '2_release' }}"
+        sequence: !input "2_release"
+      - conditions:
+          - "{{ command == '3_release' }}"
+        sequence: !input "3_release"
+      - conditions:
+          - "{{ command == '4_release' }}"
+        sequence: !input "4_release"
+      - conditions:
+          - "{{ command == '5_release' }}"
+        sequence: !input "5_release"
+      - conditions:
+          - "{{ command == '6_release' }}"
+        sequence: !input "6_release"
